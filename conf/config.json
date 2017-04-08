@@ -1,0 +1,12 @@
+{
+    "ENV": {
+        "mode": "DEV",
+        "debug":true
+    },
+    "WWW": {
+        "port": "3000",
+        "host": "0.0.0.0"
+    },
+    "ENGINE":"hbs"
+    
+}

@@ -4,11 +4,24 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var midnight_app = require('./core/midnight');
+var mixin = require('merge-descriptors');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
 
-var app = express();
+
+// var index = require('./routes/index');
+// var users = require('./routes/users');
+
+
+
+//cree l'application et ajoute le necessaire pour MIDNIGHT
+//note: on reutilise la meme facon de faire qu'express pour une unité de logique
+//et parcequ'on a pas trop le choix non plus :)
+var app =  express();
+mixin(app, midnight_app,true);
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,8 +35,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+//genere les routes a partir du fichier de conf
+//ie: en cas de redemarrage du serveur, tout sera stocké la dedans....
+app.midnight_generate_sitemap();
+// app.use('/', index);
+// app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

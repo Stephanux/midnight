@@ -1,0 +1,86 @@
+{
+	"GET": {
+		"view": "index"
+	},
+	"PUT": {
+		"view": "putter"
+	},
+	"childRoutes": {
+		"exos": {
+			"GET": {
+				"view": "exos"
+			},
+			"childRoutes": {
+				":id": {
+					"GET": {
+						"params": [
+							{
+								"name": "id",
+								"type": "int"
+							}
+						],
+						"view": "exos_details"
+					}
+				}
+			}
+		},
+		"users/:id/:name": {
+			"GET": {
+				"params": [
+					{
+						"name": "id",
+						"type": "int",
+						"min": 0,
+						"max": 100,
+						"null": false,
+						"default_value": 0
+					},
+					{
+						"name": "name",
+						"type": "string",
+						"minLength": 5,
+						"maxLength": 14,
+						"pattern": "(A|B)-[a-z]{6}-[A-F0-9]{4}",
+						"null": false
+					}
+				],
+				"view": "list_user"
+			},
+			"PUT": {
+				"view": "update_user"
+			}
+		},
+		"dogs/:hello/:mail": {
+			"GET": {
+				"params": [
+					{
+						"name": "hello",
+						"type": "custom",
+						"validator": "my.validator",
+						"null": false
+					},
+					{
+						"name": "mail",
+						"type": "email"
+					}
+				]
+			}
+		},
+		"admin": {
+			"GET": {},
+			"childRoutes": {
+				"stats/:type": {
+					"GET": {
+						"params": [
+							{
+								"name": "type",
+								"type": "int",
+								"min": 0
+							}
+						]
+					}
+				}
+			}
+		}
+	}
+}
