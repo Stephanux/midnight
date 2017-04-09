@@ -1,6 +1,6 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Poiret One', cursive;
 }
 
 a {
@@ -93,8 +93,7 @@ right connector from last child*/
 	padding: 5px 10px;
 	text-decoration: none;
 	color: #666;
-	font-family: arial, verdana, tahoma;
-	font-size: 11px;
+	font-size: 14px;
 	display: inline-block;
 	cursor: pointer;
 	border-radius: 5px;
@@ -110,8 +109,6 @@ right connector from last child*/
 	padding: 5px 10px;
 	text-decoration: none;
 	color: #666;
-	font-family: arial, verdana, tahoma;
-	font-size: 11px;
 	display: inline-block;
 	cursor: pointer;
 	-webkit-border-radius: 50%;
@@ -150,12 +147,16 @@ right connector from last child*/
 	width: 100%;
 	text-align:left;
 }
+
 .endpoint > div > div > span {
 	font-size: 1.1em;
     font-weight: bold;
 }
 .endpoint > div > div > div > .param_name {
 	font-weight: bold;
+}
+.endpoint > div > div >  div {
+	margin: 5px;
 }
 
 .parameters > div {
