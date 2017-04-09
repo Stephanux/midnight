@@ -3,7 +3,7 @@
         
         <div>
             <span>{{key}}</span>
-            {{#eachExcept value "params"}}
+            {{#eachExcept value "params" "url_params"}}
             <!-- et le reste -->
             
             <div>
@@ -16,6 +16,17 @@
             <div class="parameters">
                 <span class="param_name">Parametres:</span>
                 {{#each value.params}}
+                    <div><span class="param_name">{{this.name}}</span>
+                    <span>({{this.type}})</span>
+                    </div>
+                {{/each}}
+            </div>
+            {{/if}}
+
+            {{#if value.url_params}}
+            <div class="parameters">
+                <span class="param_name">URL Parametres:</span>
+                {{#each value.url_params}}
                     <div><span class="param_name">{{this.name}}</span>
                     <span>({{this.type}})</span>
                     </div>

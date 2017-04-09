@@ -1,14 +1,26 @@
 {
 	"GET": {
-		"view": "index"
+		"view": "index",
+		"type":"json",
+		"extra":"jesaispas"
 	},
 	"PUT": {
-		"view": "putter"
+		"view": "putter",
+		"type":"csv"
 	},
 	"childRoutes": {
 		"exos": {
 			"GET": {
-				"view": "exos"
+				"view": "exos",
+				"type":"json",
+				"url_params":[
+					{
+						"name":"truc",
+						"type":"int",
+						"min":0,
+						"max":100
+					}
+				]
 			},
 			"childRoutes": {
 				":id": {
@@ -19,7 +31,15 @@
 								"type": "int"
 							}
 						],
-						"view": "exos_details"
+						"url_params":[
+							{
+								"name":"orderby",
+								"type":"string",
+								"pattern":"^h[eE]l{2,3}o$"
+							}
+						],
+						"view": "exos_details",
+						"type":"json"
 					}
 				}
 			}
