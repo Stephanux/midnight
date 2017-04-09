@@ -15,6 +15,15 @@ A short description of the motivation behind the creation and maintenance of the
 
 * a voir
 
+## Configuration conf/config.json
+
+Une petite explication des parametres du fichier
+
+
+## Endpoints conf/sitemap.json
+
+Une petite explication des parametres du fichier
+
 
 ## API Reference
 

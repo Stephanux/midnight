@@ -4,12 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var midnight_app = require('./core/midnight');
 var mixin = require('merge-descriptors');
 
 
 
-// var index = require('./routes/index');
+//var admin = require('./routes/admin');
 // var users = require('./routes/users');
 
 
@@ -22,7 +23,7 @@ mixin(app, midnight_app,true);
 
 
 
-
+require("./hbs.init");
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -38,7 +39,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 //genere les routes a partir du fichier de conf
 //ie: en cas de redemarrage du serveur, tout sera stocké la dedans....
 app.midnight_generate_sitemap();
-// app.use('/', index);
+
+
+
+//administration du site
+
+
+
+let admin_url = app.server_conf.ADMINURL || "midnighAdmin";
+app.use(`/${admin_url}`, require("./routes/admin")(app));
 // app.use('/users', users);
 
 // catch 404 and forward to error handler

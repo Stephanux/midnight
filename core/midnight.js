@@ -44,8 +44,12 @@ var fsReadConfFileSyncOrDie = function (file){
         throw err;//debug ONLY!!!
     }
 }
-
-
+//DEV ET DEBUG ONLY -------------------------------
+var CONSOLE_LOG = function(...msg){
+    if(midnight_app.server_conf.ENV.debug){
+        console.log(LOG_HEAD,...msg);
+    }
+}
 //l'application OTF elle meme
 //SINGLETON POUR L'APPLICATION (pas besoin de taper le prototype....)
 var midnight_app = {};
@@ -83,7 +87,7 @@ Object.defineProperties(midnight_app,{
 *   express
 */
 midnight_app.midnight_generate_sitemap = function(){
-    console.log(LOG_HEAD + "Generate application routers");
+    CONSOLE_LOG("Generate application routers");
     //le router "general"
     
     //pour chaque element du site map, cree les middlewares necessaires
@@ -116,7 +120,7 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
             params = route.substr(dot);
             url = route.substr(0,dot-1);
         }
-        console.log(LOG_HEAD+"generate child route for ",route),
+        CONSOLE_LOG("generate child route for ",route);
         router.use("/"+url, this.__generate_child_routes(child[route], params));
     });
     
@@ -126,7 +130,7 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
         if(sitemap[method]){
             //a partir des parametres donnés, recupere les middlewares
             //a appliquer
-            console.log(LOG_HEAD+"generate METHOD for route: ",method,sitemap[method]);
+            CONSOLE_LOG("generate METHOD for route: ",method,sitemap[method]);
             //ajoute les parametres de la route???
             router[method.toLowerCase()]("/"+url_params,...this.__load_middlewares_for_route(sitemap[method]));//un test a la con, devra etre un tableau de middlewares...
         }

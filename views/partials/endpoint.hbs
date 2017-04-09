@@ -1,0 +1,24 @@
+
+{{#if childRoutes}}
+    <ul>  
+    {{#each childRoutes}}
+        <li>
+            <div class="endpoint">
+                <h3>{{@key}}</h3>
+                {{> methods this}}
+            </div>
+            {{> endpoint this}}
+        </li>
+    {{/each}}
+        <li>
+            <a href="#" class="round-btn"><i class="material-icons">add</i></a>
+        </li>
+    </ul>
+{{else}}
+    <ul>
+        <li class="adder">
+            <a href="#" class="round-btn"><i class="material-icons">add</i></a>
+        </li>
+    </ul>
+{{/if}}
+    

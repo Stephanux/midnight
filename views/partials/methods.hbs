@@ -1,0 +1,28 @@
+<div>
+    {{#eachExcept this "childRoutes"}}
+        
+        <div>
+            <span>{{key}}</span>
+            {{#eachExcept value "params"}}
+            <!-- et le reste -->
+            
+            <div>
+                <span class="param_name">{{key}}:</span><span>{{value}}</span>
+            </div>
+            {{/eachExcept}}
+
+            <!-- autres parametres de la vue... -->
+            {{#if value.params}}
+            <div class="parameters">
+                <span class="param_name">Parametres:</span>
+                {{#each value.params}}
+                    <div><span class="param_name">{{this.name}}</span>
+                    <span>({{this.type}})</span>
+                    </div>
+                {{/each}}
+            </div>
+            {{/if}}
+           
+        </div>
+    {{/eachExcept}}
+</div>
