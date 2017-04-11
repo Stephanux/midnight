@@ -1,7 +1,7 @@
 {
     "ENV": {
         "mode": "DEV",
-        "debug":true
+        "debug":false
     },
     "WWW": {
         "port": "3000",
