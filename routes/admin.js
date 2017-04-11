@@ -100,8 +100,17 @@ module.exports = function(app){
         
     }
 
+    /**
+     * deplace un endpoint
+     */
     function moveEndpoint(req,res,next){
-        
+        let who = req.query.who;
+        let where = req.query.where;
+
+        if(who && where){
+            //fait le deplacement
+        }
+        next();
     }
 
 
@@ -129,7 +138,10 @@ module.exports = function(app){
         //renvoie le hbs de description/mise a jour du sitemap
         res.redirect("../../sitemap");
     });
-
+    router.get("/move",moveEndpoint,function(req,res,next){
+        //renvoie le hbs de description/mise a jour du sitemap
+        res.redirect("../../sitemap");
+    });
 
     router.get("/sitemap", function(req,res,next){
         //renvoie le hbs de description/mise a jour du sitemap

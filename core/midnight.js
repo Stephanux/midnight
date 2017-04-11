@@ -164,8 +164,11 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
     //enregistre le router et un uuid dans le sitemap
     sitemap['__router__'] = router;
     let uuid = generateUUID();
-    sitemap['__uuid__']= uuid
-    sitemap['__key__'] = "/"+url_params;
+    sitemap['__uuid__']= uuid;
+    //il faudrait enregistrer un lien vers le parent...
+
+
+    
     //enregistre dans le dictionnaire pour recup plus facile 
     this.__routes_dict[uuid] = sitemap;
     return router;

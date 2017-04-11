@@ -3,7 +3,7 @@
     <ul>  
     {{#each childRoutes}}
         <li>
-            <div class="endpoint" draggable="true" ondragstart="ADMIN.doDrag">
+            <div class="endpoint" draggable="true" data-uid="{{__uuid__}}">
                 <h3>{{@key}}</h3>
                 <a href="./delete/{{../__uuid__}}/{{__uuid__}}">DELETE</a>
                 {{> methods this}}
@@ -12,17 +12,15 @@
         </li>
     {{/each}}
         <li>
-            <a href="./addendpoint/{{__uuid__}}" class="round-btn"
-            ondragenter="ADMIN.skip" ondragleave="ADMIN.skip"
-            ondrop="ADMIN.doDrop"><i class="material-icons">add</i></a>
+            <div class="drag-cible" data-drop="true" data-uid="{{__uuid__}}"><a href="./addendpoint/{{__uuid__}}" class="round-btn">
+            <i class="material-icons">add</i></a></div>
         </li>
     </ul>
 {{else}}
     <ul>
         <li>
-            <a href="./addendpoint/{{__uuid__}}" class="round-btn"
-            ondragenter="ADMIN.skip" ondragleave="ADMIN.skip"
-            ondrop="ADMIN.doDrop"><i class="material-icons">add</i></a>
+            <div class="drag-cible" data-drop="true" data-uid="{{__uuid__}}"><a href="./addendpoint/{{__uuid__}}" class="round-btn">
+            <i class="material-icons">add</i></a></div>
         </li>
     </ul>
 {{/if}}

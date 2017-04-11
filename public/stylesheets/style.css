@@ -162,3 +162,99 @@ right connector from last child*/
 .parameters > div {
 	margin-left: 5px;
 }
+
+.phantom{
+	opacity: 0.4;
+
+}
+
+
+
+
+
+/* animation type ripple */
+@-webkit-keyframes
+click-wave { 0% {
+ width: 40px;
+ height: 40px;
+ opacity: 0.35;
+ position: relative;
+}
+ 100% {
+ width: 100px;
+ height: 100px;
+ margin-left: -30px;
+ margin-top: -30px;
+ opacity: 0.0;
+}
+}
+
+@-moz-keyframes
+click-wave { 0% {
+ width: 40px;
+ height: 40px;
+ opacity: 0.35;
+ position: relative;
+}
+ 100% {
+ width: 100px;
+ height: 100px;
+ margin-left: -30px;
+ margin-top: -30px;
+ opacity: 0.0;
+}
+}
+
+@-o-keyframes
+click-wave { 0% {
+ width: 40px;
+ height: 40px;
+ opacity: 0.35;
+ position: relative;
+}
+ 100% {
+ width: 100px;
+ height: 100px;
+ margin-left: -30px;
+ margin-top: -30px;
+ opacity: 0.0;
+}
+}
+
+@keyframes
+click-wave { 0% {
+ width: 40px;
+ height: 40px;
+ opacity: 0.35;
+ 
+}
+ 100% {
+ width: 100px;
+ height: 100px;
+ margin-left: -30px;
+ margin-top: -30px;
+ opacity: 0.0;
+}
+}
+.drag-cible{
+	position:relative;
+}
+.drag-cible::after{
+	content: '';
+	width: 40px;
+ 	height: 40px;
+	opacity:0;
+	border-radius: 50%;
+	position: absolute;
+	left:5%;
+	background-color: #5cb85c;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+}
+
+.drag-reactive .drag-cible::after{
+	animation-name: click-wave;
+}
+.stop-drag + ul .drag-cible::after{
+	animation-name: none!important;
+}
