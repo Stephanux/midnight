@@ -16,6 +16,21 @@
 "use strict";
 
 
+//Genere un UUID unique pour chaque objet qui doit etre lier
+//@return string: l'UUID généré
+//@public
+function generateUUID() {
+    let __uuid_date = new Date().getTime();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,(c)=>{
+        let d = __uuid_date;
+        let r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+};
+
+
+
 var fs = require('fs');
 var express = require("express");
 //les methodes HTTP supportées -pour l'instant
@@ -76,6 +91,16 @@ Object.defineProperties(midnight_app,{
     sitemap:{
         get: function(){ return this.__sitemap;},
         set: function(v){} //nope
+    },
+    //un dictionnaire de router
+    __routes_dict:{
+        value:{},
+        enumerable:false,
+        writable:false
+    },
+    routes_dict:{
+        get function(){return this.__routes_dict;},
+        set function(v){/*nope*/}
     }
 
 });
@@ -135,6 +160,13 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
             router[method.toLowerCase()]("/"+url_params,...this.__load_middlewares_for_route(sitemap[method]));//un test a la con, devra etre un tableau de middlewares...
         }
     }    
+
+    //enregistre le router et un uuid dans le sitemap
+    sitemap['__router__'] = router;
+    let uuid = generateUUID();
+    sitemap['__uuid__']= uuid
+    //enregistre dans le dictionnaire pour recup plus facile 
+    this.__routes_dict[uuid] = sitemap;
     return router;
 }
 

@@ -18,7 +18,7 @@ hbs.registerHelper('eachExcept',function(){
 
    
     for (var key of Object.keys(obj)){
-        if(except.indexOf(key)==-1) ret+=options.fn({key:key, value:obj[key]});
+        if(except.indexOf(key)==-1 && !key.startsWith('__')) ret+=options.fn({key:key, value:obj[key]});
         
     }
     
