@@ -100,7 +100,9 @@ module.exports = function(app){
         
     }
 
-
+    function moveEndpoint(req,res,next){
+        
+    }
 
 
 
