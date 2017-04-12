@@ -24,7 +24,7 @@
         let parent = this.getAttribute("data-uid");
         //redirige vers la page de modification
 
-        window.location="../move?who="+dt+"&where="+parent;
+        window.location="./move?who="+dt+"&where="+parent;
     }
 
     window.addEventListener("load",()=>{

@@ -55,6 +55,8 @@ any siblings*/
 /*Remove space from the top of single children*/
 .tree li:only-child{ 
 	padding-top: 0;
+	width: 100%;
+    text-align: center;
 	
 	}
 .tree li:only-child.adder{
@@ -113,7 +115,7 @@ right connector from last child*/
 	cursor: pointer;
 	-webkit-border-radius: 50%;
 	-moz-border-radius:50%;
-	
+	z-index: 9999;
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
@@ -239,22 +241,24 @@ click-wave { 0% {
 .drag-cible{
 	position:relative;
 }
-.drag-cible::after{
+.drag-cible::before{
+	z-index: -1;
 	content: '';
 	width: 40px;
  	height: 40px;
 	opacity:0;
 	border-radius: 50%;
 	position: absolute;
-	left:5%;
+	left:50%;
+	transform: translate(-20px);
 	background-color: #5cb85c;
 	animation-duration: 1s;
 	animation-iteration-count: infinite;
 }
 
-.drag-reactive .drag-cible::after{
+.drag-reactive .drag-cible::before{
 	animation-name: click-wave;
 }
-.stop-drag + ul .drag-cible::after{
+.stop-drag + ul .drag-cible::before{
 	animation-name: none!important;
 }

@@ -135,6 +135,7 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
 
     
     var child = sitemap.childRoutes || {};
+
     Object.keys(child).forEach ( (route)=>{
         //pour chq routes...
         //recupere, si existent, les parametres
@@ -146,6 +147,10 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
             url = route.substr(0,dot-1);
         }
         CONSOLE_LOG("generate child route for ",route);
+
+        sitemap.childRoutes[route]['__parent__'] = sitemap;//un lien vers le sitemap parent
+
+
         router.use("/"+url, this.__generate_child_routes(child[route], params));
     });
     
