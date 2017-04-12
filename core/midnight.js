@@ -130,7 +130,7 @@ midnight_app.midnight_generate_sitemap = function(){
  * 
  */
 midnight_app.__generate_child_routes = function(sitemap, url_params){
-    var router = express.Router();
+    var router = express.Router({mergeParams: true});//au cas ou...
     url_params = url_params || "";
 
     
@@ -209,6 +209,19 @@ midnight_app.__load_middlewares_for_route = function( route){
     return mw;
 }
 
+
+
+midnight_app.__add_child_route = function(to_id, map){
+
+}
+
+midnight_app.__remove_child_route = function(route_id){
+
+}
+
+midnight_app.__move_child_route = function(who_id, where_id){
+    
+}
 
 
 

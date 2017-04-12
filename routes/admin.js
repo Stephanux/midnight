@@ -115,6 +115,8 @@ module.exports = function(app){
         let where = req.query.where;
 
         if(who && where){
+            
+            
             //fait le deplacement
 
             //recupere depuis le sitemap
@@ -129,6 +131,29 @@ module.exports = function(app){
 
             if( parent_endpoint && who_endpoint && where_endpoint){
                 console.log("deplacement OK");
+                //VERIF QUE WHO N'EST PAS PARENT DE where
+                console.log("verif que where n'est pas fils de who");
+                let prt = where_endpoint;
+                
+                let is_parent = false;
+                while (prt!=null){
+                    if(prt == who_endpoint){
+                        is_parent = true;
+                        break;
+                    }
+                    prt = prt.__parent__;
+                }
+                if(is_parent) {
+                    //arrete tout
+                    req.admin_msg = "Impossible d'ajouter ici";
+                    console.log("Impossible d'ajouter ici");
+                    next();
+                    return;
+                }
+
+
+
+
 
                 //dans l'ordre, supprime de parent 
                 
@@ -162,11 +187,13 @@ module.exports = function(app){
                     let map = who_endpoint;
 
                     
+                    //et si pas de router????
                     
                     where_endpoint.__router__.use("/"+url,map.__router__);
                     //enregistre le papa
                     map.__parent__ = where_endpoint;
                     //enregistre dans les childs routes
+                    if(!where_endpoint.childRoutes) where_endpoint.childRoutes={};
                     where_endpoint.childRoutes[url] = map;
                     
                         
