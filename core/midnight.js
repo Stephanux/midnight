@@ -147,10 +147,12 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
             url = route.substr(0,dot-1);
         }
         CONSOLE_LOG("generate child route for ",route);
+        CONSOLE_LOG("params child route ",params);
 
         sitemap.childRoutes[route]['__parent__'] = sitemap;//un lien vers le sitemap parent
 
-
+        //PROBLEME ICI!!! si une route avec uniquement des parametres????
+        //url == '' !!!!
         router.use("/"+url, this.__generate_child_routes(child[route], params));
     });
     

@@ -26,7 +26,7 @@ module.exports = function(app){
 
 
 
-    //qqs middlewares
+    //qqs middlewares  TEST ONLY
     /**
      * Ajoute une nouvelle route au runtime
      */
