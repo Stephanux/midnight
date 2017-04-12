@@ -55,10 +55,13 @@ any siblings*/
 /*Remove space from the top of single children*/
 .tree li:only-child{ 
 	padding-top: 0;
-	width: 100%;
+	/*width: 100%;*/
     text-align: center;
 	
 	}
+#tree-root > ul > li:only-child {
+	width: auto;
+}
 .tree li:only-child.adder{
 	width: 100%;
     padding-left: 0px;
@@ -169,7 +172,6 @@ right connector from last child*/
 	opacity: 0.4;
 
 }
-
 
 
 

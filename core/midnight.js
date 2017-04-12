@@ -119,7 +119,7 @@ midnight_app.midnight_generate_sitemap = function(){
     // et cree les routes avec les methodes...
 
     var sitemap = this.sitemap || {};
-    this.use(this.__generate_child_routes(sitemap));
+    this.use('/',this.__generate_child_routes(sitemap));
 }
 
 
@@ -128,10 +128,12 @@ midnight_app.midnight_generate_sitemap = function(){
  * met en place les endpoints (GET, POST,...) et recupere
  * les middlewares a appliquer. 
  * 
+ * 
+ * 
  */
 midnight_app.__generate_child_routes = function(sitemap, url_params){
     var router = express.Router({mergeParams: true});//au cas ou...
-    url_params = url_params || "";
+    //url_params = url_params || "";
 
     
     var child = sitemap.childRoutes || {};
@@ -139,21 +141,21 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
     Object.keys(child).forEach ( (route)=>{
         //pour chq routes...
         //recupere, si existent, les parametres
-        let url = route;
-        let params = "";
-        let dot = route.indexOf(':');
-        if(dot != -1) {
-            params = route.substr(dot);
-            url = route.substr(0,dot-1);
-        }
-        CONSOLE_LOG("generate child route for ",route);
-        CONSOLE_LOG("params child route ",params);
+        // let url = route;
+        // let params = "";
+        // let dot = route.indexOf(':');
+        // if(dot != -1) {
+        //     params = route.substr(dot);
+        //     url = route.substr(0,dot-1);
+        // }
+        // CONSOLE_LOG("generate child route for ",route);
+        // CONSOLE_LOG("params child route ",params);
 
         sitemap.childRoutes[route]['__parent__'] = sitemap;//un lien vers le sitemap parent
 
         //PROBLEME ICI!!! si une route avec uniquement des parametres????
         //url == '' !!!!
-        router.use("/"+url, this.__generate_child_routes(child[route], params));
+        router.use("/"+route, this.__generate_child_routes(child[route]));//, params));
     });
     
     //recupere les methodes supportées par cette route 
@@ -164,7 +166,7 @@ midnight_app.__generate_child_routes = function(sitemap, url_params){
             //a appliquer
             CONSOLE_LOG("generate METHOD for route: ",method,sitemap[method]);
             //ajoute les parametres de la route???
-            router[method.toLowerCase()]("/"+url_params,...this.__load_middlewares_for_route(sitemap[method]));//un test a la con, devra etre un tableau de middlewares...
+            router[method.toLowerCase()]("/",...this.__load_middlewares_for_route(sitemap[method]));//un test a la con, devra etre un tableau de middlewares...
         }
     }    
 
