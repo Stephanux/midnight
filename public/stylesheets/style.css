@@ -264,3 +264,12 @@ click-wave { 0% {
 .stop-drag + ul .drag-cible::before{
 	animation-name: none!important;
 }
+
+.tree-container{
+	overflow: visible;
+}
+#tree-root::after{
+	overflow: hidden;
+    display: inline-block; /* Necessary to trigger "hasLayout" in IE */
+    display: block; /* Sets element back to block */
+}
