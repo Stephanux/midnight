@@ -4,35 +4,17 @@
 <style>
 /*Now the CSS*/
 * {margin: 0; padding: 0;}
-/*
-.tree ul {
-	padding-top: 20px; position: relative;
-	display: inline-block;
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
-}
 
-
-
-.tree li {
-	text-align: center;
-	list-style-type: none;
-	position: relative;
-	padding: 20px 5px 0 5px;
-	display: inline;
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
+/*Now the CSS*/
+body{
+white-space:nowrap;
 }
-.endpoint{
-    display:block;
-}
-*//*Now the CSS*/
-* {margin: 0; padding: 0;}
 .tree{
-    white-space:nowrap;
-    overflow:auto;
+    
+    overflow:visible;
+    position: absolute;
+    top: 0;
+    min-width:100px; width: auto !important; width: 100px;
 }
 .tree ul {
 	padding-top: 20px; position: relative;
@@ -43,7 +25,13 @@
 }
 
 .tree li {
-	float: left; text-align: center;
+    box-sizing: border-box;
+	/*float: left;*/
+    display:inline-block; 
+    vertical-align:top;
+
+
+    text-align: center;
 	list-style-type: none;
 	position: relative;
 	padding: 20px 5px 0 5px;
@@ -59,7 +47,7 @@
 	content: '';
 	position: absolute; top: 0; right: 50%;
 	border-top: 1px solid #ccc;
-	width: 50%; height: 20px;
+	width: 51%; height: 20px;
 }
 .tree li::after{
 	right: auto; left: 50%;
@@ -109,7 +97,7 @@ right connector from last child*/
 	font-family: arial, verdana, tahoma;
 	font-size: 11px;
 	display: inline-block;
-	
+	min-width:100px; width: auto !important; width: 100px;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -141,35 +129,35 @@ Thanks :)*/
 <div class="tree">
 	<ul>
 		<li>
-			<a class="endpoint" href="#">Parent</a>
+			<div><a class="endpoint" href="#">Child</a></div>
 			<ul>
 				<li>
-					<a class="endpoint" href="#">Child</a>
+					<div><a class="endpoint" href="#">Child</a></div>
 					<ul>
 						<li>
-							<a class="endpoint" href="#">Grand Child</a>
+							<div><a class="endpoint" href="#">Grand Child</a></div>
 						</li>
 					</ul>
 				</li>
 				<li>
-					<a class="endpoint" href="#">Child</a>
+					<div><a class="endpoint" href="#">Child</a></div>
 					<ul>
-						<li><a class="endpoint" href="#">Grand Child</a></li>
+						<li><div><a class="endpoint" href="#">Child</a></div></li>
 						<li>
-							<a class="endpoint" href="#">Grand Child</a>
+							<div><a class="endpoint" href="#">Child</a></div>
 							<ul>
 								<li>
-									<a class="endpoint" href="#">Great Grand Child</a>
+									<div><a class="endpoint" href="#">Child</a></div>
 								</li>
 								<li>
-									<a class="endpoint" href="#">Great Grand Child</a>
+									<div><a class="endpoint" href="#">Child</a></div>
 								</li>
 								<li>
-									<a class="endpoint" href="#">Great Grand Child</a>
+									<div><a class="endpoint" href="#">Child</a></div>
 								</li>
 							</ul>
 						</li>
-						<li><a class="endpoint" href="#">Grand Child</a></li>
+						<li><div><a class="endpoint" href="#">Child</a></div></li>
 					</ul>
 				</li>
 			</ul>
