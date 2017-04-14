@@ -12,5 +12,24 @@
 */
 //Dummy middleware, permet juste de renvoyer qqchose au navigateur appellant
 module.exports = function(req,res,next){
-    res.end(req.originalUrl+" DEBUG TEST OK");
+    //recupe les infos de la requete
+    var dt = {
+        url:req.originalUrl,
+        params:req.params,
+        query:req.query,
+        message:"Tout est OK!",
+        test:[
+            {
+                nom:"steph",
+                age:12,
+                hobbies:[
+                    "jeu",
+                    "fun"
+                ]
+            }
+        ]
+    };
+
+    req.__midnight_datas = dt;
+    next();
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="app">
+            <ul v-for="todo in todos">
+                <my-items v-bind:todo="todo"></my-items>
+            </ul>
+        </div>
+
+    </body>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vuex"></script>
+    
+    <script>
+(function(Vue){
+    //qqs datas toutes simples
+    var data = {
+        todos:[
+            {
+                message:"eat pussy",
+                urge:"hard"
+            },
+            {
+                message:"play game",
+                urge:"low"
+            }
+        ]
+    }
+
+    //creation d'un composant pour faire un rendu a la con
+    Vue.component('my-items',{
+        template:`
+            <li>{{todo.message}}</li>
+        `,
+        props:["todo"]
+    });
+
+
+    //creation du root de l'application
+    var app = new Vue({
+        el:"#app",
+        data:data,
+        created: function(){
+            //creation de l'appli, lance le loading des données 
+
+        }
+    });
+
+
+
+})(Vue);
+
+    </script>
+</html>

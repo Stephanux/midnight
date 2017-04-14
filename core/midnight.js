@@ -38,7 +38,8 @@ const HTTP_METHODS = require('http').METHODS;
 
 //DEBUG ONLY
 var dummy = require("./middlewares/dummy");
-// var dummy2 = require("../middlewares/dummy2");
+var TYPES = require("./middlewares/types");
+
 
 
 
@@ -208,25 +209,197 @@ midnight_app.__load_middlewares_for_route = function( route){
     // if (route.view) mw.push(require("./middlewares/html.render")(route.view));
     // //pour les tests
     mw.push(dummy);
+
+    let type = route.type || 'json';
+    let md = TYPES[type] || TYPES['json'];
+    if(md) mw.push(md);
+
+
     return mw;
 }
 
 
 /**
  * Ajoute une nouvelle route a l'application
- * @param to_id: identifiant de la route a laquelle se racroche la nouvelle
+ * @param parentid: identifiant de la route a laquelle se racroche la nouvelle
+ * @param url: l'url du nouveau service
  * @param map: object, representation de la route a creer 
  */
-midnight_app.__add_child_route = function(to_id, map){
+midnight_app.__add_child_route = function(parentid,url, map){
+     
+       //recupere le endpoint correspondant
+        let endpoint = this.__routes_dict[parentid];
+        
+        if(endpoint){
+            console.log("ajout de la route!",endpoint)
+            //ajoute au router et vois ce que ca fait...
+            /*let map = {
+                "GET":{
+                    view:"hello",
+                    type:'json'
+                },
+                childRoutes:{},
+                __parent__ : endpoint
+            };*/
+            //ajoute qqs props necessaire au fctnement interne
+            map["childRoutes"] = {};
+            map["__parent__"] = endpoint;
+            
+            let router = this.__generate_child_routes(map,null);
+            endpoint.__router__.use("/"+url,router);
 
+            if(!endpoint.childRoutes) endpoint.childRoutes = {};
+            endpoint.childRoutes[url] = map;
+        } else return "Invalid endpoint ID";
 }
 
-midnight_app.__remove_child_route = function(route_id){
 
-}
-
-midnight_app.__move_child_route = function(who_id, where_id){
+/**
+ * Supprime un route de l'application 
+ * @param id: identifiant de la route a supprimer
+ */
+midnight_app.__remove_child_route = function(id){
     
+    //TEST: utilise le __parent__
+    let endpoint = this.__routes_dict[id];
+    if (!endpoint) throw "Invalid route ID";
+
+
+    let parent_endpoint = endpoint['__parent__'];
+
+    /*
+    let parent_endpoint = app.__routes_dict[parentid];
+    let endpoint = app.__routes_dict[id];
+    */
+    if(parent_endpoint){
+        //stack: recup le stack ses child routes (express API)
+        let stack = parent_endpoint.__router__.stack;
+        
+        let total = stack.length;
+        
+        for(let i=0;i<total;i++){
+            let rt = stack[i];
+            //handle: le router lui meme (express API)
+            if(rt.handle == endpoint.__router__){
+                //supprime le router
+                stack.splice(i,1);
+                //supprime du sitemap pour affichage
+                this.__remove_from_sitemap(parent_endpoint, endpoint);
+                /*
+                for(let key in parent_endpoint.childRoutes){
+                    
+                    if(parent_endpoint.childRoutes[key] == endpoint){
+                        delete(parent_endpoint.childRoutes[key]);
+                        break;
+                    }
+                }*/
+                break;
+            }
+        }
+        
+    }
+}
+
+
+/**
+ * private like...
+ * supprime un endpoint du sitemap
+ * @param parent_endpoint: d'ou on veut supprimer 
+ * @param endpoint: ce qu'on veut supprimer 
+ * @return l'url associé
+ */
+midnight_app.__remove_from_sitemap = function(parent_endpoint, endpoint){
+    for(let key in parent_endpoint.childRoutes){                    
+        if(parent_endpoint.childRoutes[key] == endpoint){
+            delete(parent_endpoint.childRoutes[key]);
+            return key;
+        }
+    }
+}
+
+
+/**
+ * Deplace un endpoint vers un nouveau parent 
+ * @param who: id du endpoint a deplacer 
+ * @param where: id du nouveau parent
+ */
+midnight_app.__move_child_route = function(who, where){
+    
+        if(who && where){
+            
+            
+            //fait le deplacement
+
+            //recupere depuis le sitemap
+            let who_endpoint = this.__routes_dict[who];
+            let parent_endpoint = who_endpoint.__parent__;
+            let where_endpoint = this.__routes_dict[where];
+
+
+            let url = null;
+
+
+
+            if( parent_endpoint && who_endpoint && where_endpoint){
+                //verifie que where n'est pas un fils de who.
+                let prt = where_endpoint;
+                
+                let is_parent = false;
+                while (prt!=null){
+                    if(prt == who_endpoint){
+                        is_parent = true;
+                        break;
+                    }
+                    prt = prt.__parent__;
+                }
+                if(is_parent) {
+                    //arrete tout
+                    throw 'Invalid param: where is child of who'
+                    
+                }
+
+
+
+
+
+                //dans l'ordre, supprime de parent 
+                
+                let stack = parent_endpoint.__router__.stack;
+                
+                let total = stack.length;
+                
+                for(let i=0;i<total;i++){
+                    let rt = stack[i];
+                    
+                    if(rt.handle == who_endpoint.__router__){
+                        //supprime le router
+                        stack.splice(i,1);
+                        //supprime du sitemap pour affichage
+                        url = this.__remove_from_sitemap(parent_endpoint, who_endpoint);
+                        
+                        break;
+                    }
+                }
+                //ajoute a where_endpoint
+                //besoin: de route: string la clé de la route
+
+                let map = who_endpoint;
+
+                
+                //et si pas de router????
+                
+                where_endpoint.__router__.use("/"+url,map.__router__);
+                //enregistre le papa
+                map.__parent__ = where_endpoint;
+                //enregistre dans les childs routes
+                if(!where_endpoint.childRoutes) where_endpoint.childRoutes={};
+                where_endpoint.childRoutes[url] = map;
+                
+                    
+                } else {
+                    throw "Invalid params: unknown endpoint ID";
+                }
+        } else throw "Invalid params";
 }
 
 

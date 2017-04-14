@@ -12,7 +12,7 @@
 		"exos": {
 			"GET": {
 				"view": "exos",
-				"type":"json",
+				"type":"simplexml",
 				"url_params":[
 					{
 						"name":"truc",

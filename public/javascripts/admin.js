@@ -41,3 +41,23 @@
         })
     })
 })();
+
+
+/**
+ * Start Application
+ * Vue.js pour les bindings -simple 
+ */
+(function(Vue){
+
+
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+
+        },
+        methods:{
+            
+        }
+    });
+})(Vue);
