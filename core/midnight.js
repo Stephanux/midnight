@@ -153,8 +153,9 @@ midnight_app.__generate_child_routes = function(sitemap){//, url_params){
         // CONSOLE_LOG("generate child route for ",route);
         // CONSOLE_LOG("params child route ",params);
 
-        sitemap.childRoutes[route]['__parent__'] = sitemap;//un lien vers le sitemap parent
         router.use("/"+route, this.__generate_child_routes(child[route]));//, params));
+        sitemap.childRoutes[route]['__parent__'] = sitemap;//un lien vers le sitemap parent
+        
     });
     
     //recupere les methodes supportées par cette route 
@@ -170,6 +171,22 @@ midnight_app.__generate_child_routes = function(sitemap){//, url_params){
     }    
 
     //enregistre le router et un uuid dans le sitemap
+    //NOTE: pour eviter la circular reference error du JSON,
+    //rend les properties __router__ et __parent__ non enumerable,
+    //en plus, niveau UI, elles servents a rien...
+    Object.defineProperties(sitemap,{
+        __router__:{
+            value: null,
+            enumerable: false,
+            writable: true
+        },
+        __parent__:{
+            value: null,
+            enumerable: false,
+            writable: true
+        }
+        
+    });
     sitemap['__router__'] = router;
     let uuid = generateUUID();
     sitemap['__uuid__']= uuid;
@@ -242,15 +259,21 @@ midnight_app.__add_child_route = function(parentid,url, map){
                 __parent__ : endpoint
             };*/
             //ajoute qqs props necessaire au fctnement interne
-            map["childRoutes"] = {};
-            map["__parent__"] = endpoint;
+            
             
             let router = this.__generate_child_routes(map,null);
+            map["childRoutes"] = {};
+            map["__parent__"] = endpoint;
             endpoint.__router__.use("/"+url,router);
 
             if(!endpoint.childRoutes) endpoint.childRoutes = {};
             endpoint.childRoutes[url] = map;
-        } else return "Invalid endpoint ID";
+            
+
+            return map;//identifiant de la route 
+
+
+        } else throw "Invalid endpoint ID";
 }
 
 
@@ -297,6 +320,8 @@ midnight_app.__remove_child_route = function(id){
             }
         }
         
+    } else {
+        console.log("No parent!!!!")
     }
 }
 

@@ -18,7 +18,8 @@
 var express = require('express');
 var router = express.Router();
 
-
+var path    = require("path");
+var TYPES = require("../core/middlewares/types");
 
 //note: les routes sont genereés via une fonction
 //j'ai juste besoin des données de l'application a ce moment la
@@ -30,23 +31,24 @@ module.exports = function(app){
     
    
     //TEMP ONLY LE TEMPS QUE L'APP SOIT EN PLACE ----------------------------------
-    router.get("/addendpoint/:parentid", function(req,res,next){
-        //renvoie le hbs de description/mise a jour du sitemap
-        res.render('add_endpoint',{
-            parentid:req.params.parentid
+    // router.get("/addendpoint/:parentid", function(req,res,next){
+    //     //renvoie le hbs de description/mise a jour du sitemap
+    //     res.render('add_endpoint',{
+    //         parentid:req.params.parentid
             
-        });
-    });
+    //     });
+    // });
 
-    router.get("/delete/:id",removeEndpoint, function(req,res,next){
-        //renvoie le hbs de description/mise a jour du sitemap
-        res.redirect("../sitemap");
-    });
+    // router.get("/delete/:id",removeEndpoint, function(req,res,next){
+    //     //renvoie le hbs de description/mise a jour du sitemap
+    //     //res.redirect("../sitemap");
+    //     res.json("ok")
+    // });
 
-    router.get("/move",moveEndpoint,function(req,res,next){
-        //renvoie le hbs de description/mise a jour du sitemap
-        res.redirect("./sitemap");
-    });
+    // router.get("/move",moveEndpoint,function(req,res,next){
+    //     //renvoie le hbs de description/mise a jour du sitemap
+    //     res.redirect("./sitemap");
+    // });
 
 
 
@@ -60,10 +62,16 @@ module.exports = function(app){
      */
     router.get("/sitemap", function(req,res,next){
         //renvoie le hbs de description/mise a jour du sitemap
-        res.render('sitemap',{
-            test:"Bonjour",
-            map: app.sitemap
+        // res.render('sitemap',{
+        //     map: app.sitemap,
+        //     //les types de retour possible 
+        //     types: Object.keys(TYPES)
             
+        // });
+        // pour appli vue.js
+        res.json({
+            map: app.sitemap,
+            types: Object.keys(TYPES)
         });
     });
 
@@ -73,6 +81,8 @@ module.exports = function(app){
     function add_endpoint(req,res,next){
         let parentid = req.body.parentid;
         let url = req.body.endpoint;
+
+        console.log("parent: ",parentid);
         //cree un nouvel objet pour empaqueter la route a partir des infos 
         //données dans le formulaire
        let map = {
@@ -84,7 +94,7 @@ module.exports = function(app){
         };
         let ret = app.__add_child_route(parentid,url,map);
         if(ret){
-            req.infos = ret;
+            req.infos = ret;//uuid de la route
         } else {
             req.infos = "OK";
         }
@@ -93,11 +103,12 @@ module.exports = function(app){
     }
     router.post("/sitemap",add_endpoint, function(req,res,next){
         //renvoie le hbs de description/mise a jour du sitemap
-        res.render('sitemap',{
-            test:"Bonjour",
-            map: app.sitemap
+        // res.render('sitemap',{
+        //     test:"Bonjour",
+        //     map: app.sitemap
             
-        });
+        // });
+        res.json({uuid:req.infos});
     });
     
     /**
@@ -115,13 +126,14 @@ module.exports = function(app){
         next();
         
     }
-    router.delete("/sitemap/:id",add_endpoint, function(req,res,next){
+    router.delete("/sitemap/:id",removeEndpoint, function(req,res,next){
         //renvoie le hbs de description/mise a jour du sitemap
-        res.render('sitemap',{
-            test:"Bonjour",
-            map: app.sitemap
+        // res.render('sitemap',{
+        //     test:"Bonjour",
+        //     map: app.sitemap
             
-        });
+        // });
+        res.json(req.infos);
     });
     
 
@@ -141,17 +153,19 @@ module.exports = function(app){
     }
     router.put("/sitemap",moveEndpoint, function(req,res,next){
         //renvoie le hbs de description/mise a jour du sitemap
-        res.render('sitemap',{
-            test:"Bonjour",
-            map: app.sitemap
+        // res.render('sitemap',{
+        //     test:"Bonjour",
+        //     map: app.sitemap
             
-        });
+        // });
+        res.json({map: app.sitemap});
     });
      /* GET home page ADMIN.
     permet de tester les differents modules
     */
     router.get('/', function(req, res, next) {
-        res.end("Hello");
+        //send index.html
+        res.sendFile(path.join(__dirname+'/../views/index.html'));
     
     });
 

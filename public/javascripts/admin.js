@@ -1,4 +1,4 @@
-(function(){
+var ADMIN_EVENTS = (function(){
 
     function onStartDrag(e){
         e.dataTransfer.effectAllowed = 'move';
@@ -27,6 +27,20 @@
         window.location="./move?who="+dt+"&where="+parent;
     }
 
+    //click sur le type
+
+    function onShowTypesMenu(evt){
+        evt.preventDefault();
+        evt.stopPropagation();
+        
+        document.getElementById("menus-container").classList.add("visible");
+        //place le menus ou il faut
+        document.getElementById("types").setAttribute("style","transform: translate("+evt.clientX+"px,"+evt.clientY+"px);");
+        
+    }
+   
+
+
     window.addEventListener("load",()=>{
         document.querySelectorAll("[draggable]").forEach( el=>{
             el.addEventListener("dragstart",onStartDrag,false);
@@ -38,26 +52,24 @@
             el.addEventListener("dragover",skip,false);
             el.addEventListener("dragleave",skip,false);
             el.addEventListener("drop",onDrop,false);
+        });
+        document.querySelectorAll(".middleware").forEach(el=>{            
+            el.addEventListener("click",onShowTypesMenu);
+        });
+        document.getElementById("menus-container").addEventListener("click",(evt)=>{
+            evt.target.classList.remove("visible");
+        });
+        document.getElementById("type-choices").addEventListener("click",evt=>{
+            document.getElementById("menus-container").remove("visible");
         })
-    })
+    });
+
+
+     return {
+        onShowTypesMenu: onShowTypesMenu
+    }
+
+
+
 })();
 
-
-/**
- * Start Application
- * Vue.js pour les bindings -simple 
- */
-(function(Vue){
-
-
-
-    var app = new Vue({
-        el:"#app",
-        data:{
-
-        },
-        methods:{
-            
-        }
-    });
-})(Vue);

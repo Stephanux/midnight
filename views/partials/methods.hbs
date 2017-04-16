@@ -6,7 +6,7 @@
             {{#eachExcept value "params" "url_params"}}
             <!-- et le reste -->
             
-            <div>
+            <div class="middleware" data-middleware="{{key}}">
                 <span class="param_name">{{key}}:</span><span>{{value}}</span>
             </div>
             {{/eachExcept}}

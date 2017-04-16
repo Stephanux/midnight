@@ -133,7 +133,7 @@ Thanks :)*/
 	color: #666;
 	font-size: 14px;
 	display: inline-block;
-	cursor: pointer;
+	
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -306,4 +306,49 @@ click-wave { 0% {
 	overflow: hidden;
     display: inline-block; /* Necessary to trigger "hasLayout" in IE */
     display: block; /* Sets element back to block */
+}
+
+.menus {
+	width: 100%;
+	height: 100vh;
+	display:none;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.visible { display: block;}
+.menus > div{
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px;
+	background-color: #3E3E3E;
+	color:#E3E3E3;
+	font-size: 22px;
+	border-radius: 5px;
+}
+
+.menus > div > h3 {
+	margin: 2px;
+	font-size: 1em;
+}
+.menus > div > ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.menus > div > ul > li {
+	border-bottom: 1px dashed #E3E3E3;
+	padding: 5px;
+	cursor: pointer;
+}
+.menus > div > ul > li:hover {
+	color: #00B7FF;
+}
+.menus > div > ul >li:last-child{
+	border: none;
+}
+
+.middleware {
+	cursor: pointer;
 }

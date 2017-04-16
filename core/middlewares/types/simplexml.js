@@ -17,7 +17,6 @@
  */
 function obj_to_xml(obj, xml){
     let type =  typeof obj;
-    console.log(type);
     if(type == "object"){
             if(Array.isArray(obj)){
                 for (let o of obj){
