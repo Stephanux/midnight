@@ -273,7 +273,7 @@ midnight_app.__add_child_route = function(parentid,url, map){
             return map;//identifiant de la route 
 
 
-        } else throw "Invalid endpoint ID";
+        } else throw {status:400, message:"Invalid endpoint ID"};//BAD REQUEST
 }
 
 
@@ -285,7 +285,7 @@ midnight_app.__remove_child_route = function(id){
     
     //TEST: utilise le __parent__
     let endpoint = this.__routes_dict[id];
-    if (!endpoint) throw "Invalid route ID";
+    if (!endpoint) throw {status:400, message:"Unnown route ID"};
 
 
     let parent_endpoint = endpoint['__parent__'];
@@ -321,7 +321,7 @@ midnight_app.__remove_child_route = function(id){
         }
         
     } else {
-        console.log("No parent!!!!")
+        throw {status:400, message:"Unnown route ID"};//Internal server error: route withour parent
     }
 }
 
@@ -379,7 +379,7 @@ midnight_app.__move_child_route = function(who, where){
                 }
                 if(is_parent) {
                     //arrete tout
-                    throw 'Invalid param: where is child of who'
+                    throw {status:400, message:'Invalid param: where is child of who'}
                     
                 }
 
@@ -422,9 +422,9 @@ midnight_app.__move_child_route = function(who, where){
                 
                     
                 } else {
-                    throw "Invalid params: unknown endpoint ID";
+                    throw {status:400, message:"Invalid params: unknown endpoint ID"};
                 }
-        } else throw "Invalid params";
+        } else throw {status: 400, message:"Invalid routes IDs"};
 }
 
 

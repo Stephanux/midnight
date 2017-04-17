@@ -78,11 +78,11 @@ module.exports = function(app){
     /**
      * Ajoute une nouvelle route au runtime
      */
-    function add_endpoint(req,res,next){
+    router.post("/sitemap", function(req,res,next){
         let parentid = req.body.parentid;
         let url = req.body.endpoint;
 
-        console.log("parent: ",parentid);
+       
         //cree un nouvel objet pour empaqueter la route a partir des infos 
         //données dans le formulaire
        let map = {
@@ -92,73 +92,48 @@ module.exports = function(app){
             },
             
         };
-        let ret = app.__add_child_route(parentid,url,map);
-        if(ret){
-            req.infos = ret;//uuid de la route
-        } else {
-            req.infos = "OK";
+        try{
+            let ret = app.__add_child_route(parentid,url,map);
+            res.status=201;//content created
+            res.json({uuid:req.infos});
         }
-        next();
-
-    }
-    router.post("/sitemap",add_endpoint, function(req,res,next){
-        //renvoie le hbs de description/mise a jour du sitemap
-        // res.render('sitemap',{
-        //     test:"Bonjour",
-        //     map: app.sitemap
-            
-        // });
-        res.json({uuid:req.infos});
+        catch( err ){
+            next(err);
+        }
+        
+        
     });
     
     /**
      * Supprime une route au runtime
      */
-    function removeEndpoint(req,res,next){
+    router.delete("/sitemap/:id", function(req,res,next){
         let id = req.params.id;//id de la route a supprimer....
         try{
             app.__remove_child_route(id);
-            req.infos = "OK";
+            res.status = 200;//OK
+            res.json({map: app.sitemap});//renvoie le sitemap mis a jour
         } catch(err){
-            req.infos = err;
+            next(err);
         }
-       
-        next();
         
-    }
-    router.delete("/sitemap/:id",removeEndpoint, function(req,res,next){
-        //renvoie le hbs de description/mise a jour du sitemap
-        // res.render('sitemap',{
-        //     test:"Bonjour",
-        //     map: app.sitemap
-            
-        // });
-        res.json(req.infos);
     });
     
 
     /**
      * deplace un endpoint
      */
-    function moveEndpoint(req,res,next){
+    router.put("/sitemap", function(req,res,next){
         let who = req.query.who;
         let where = req.query.where;
         try{
             app.__move_child_route (who, where);
+            res.status = 200;
+            res.json({map: app.sitemap});
         } catch(err){
-            req.infos = err;
-            console.log(err);
+            next(err);
         }
-        next();
-    }
-    router.put("/sitemap",moveEndpoint, function(req,res,next){
-        //renvoie le hbs de description/mise a jour du sitemap
-        // res.render('sitemap',{
-        //     test:"Bonjour",
-        //     map: app.sitemap
-            
-        // });
-        res.json({map: app.sitemap});
+        
     });
      /* GET home page ADMIN.
     permet de tester les differents modules
