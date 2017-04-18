@@ -80,7 +80,7 @@ module.exports = function(app){
      */
     router.post("/sitemap", function(req,res,next){
         let parentid = req.body.parentid;
-        let url = req.body.endpoint;
+        let url = req.body.url;
 
        
         //cree un nouvel objet pour empaqueter la route a partir des infos 
@@ -94,8 +94,8 @@ module.exports = function(app){
         };
         try{
             let ret = app.__add_child_route(parentid,url,map);
-            res.status=201;//content created
-            res.json({uuid:req.infos});
+            res.status=200;//content created
+            res.json({map: app.sitemap});//renvoie le sitemap mis a jour
         }
         catch( err ){
             next(err);
