@@ -13,31 +13,42 @@
 			"GET": {
 				"view": "exos",
 				"type":"simplexml",
-				"url_params":[
-					{
-						"name":"truc",
-						"type":"int",
-						"min":0,
-						"max":100
+				"url_params":{
+					"truc":{
+						"isInt":{
+							"options":[{
+								"gt":10,
+								"lt":100
+							}],
+							"errorMessage":"Must be between 10 and 100 inclusive"
+						}
+						
 					}
-				]
+				}
 			},
 			"childRoutes": {
 				":id": {
 					"GET": {
-						"params": [
-							{
-								"name": "id",
-								"type": "int"
-							}
-						],
-						"url_params":[
-							{
-								"name":"orderby",
-								"type":"string",
-								"pattern":"^h[eE]l{2,3}o$"
-							}
-						],
+						"params": {
+							"id":{
+								"isInt":{
+									"options":{
+										"min":0,
+										"max":100
+									},
+									"errorMessage":"Must be between 0 and 100 exclusive!"
+								}
+							}	
+						},
+						"url_params":{
+								"name":{
+									"optional":true,
+									"matches":{
+										"options":["(A|B)-[a-z]{6}-[A-F0-9]{4}"]
+									},
+									"errorMessage":"Invalid name format"
+								}
+					},
 						"view": "exos_details",
 						"type":"json"
 					}
@@ -46,24 +57,24 @@
 		},
 		"users/:id/:name": {
 			"GET": {
-				"params": [
-					{
-						"name": "id",
-						"type": "int",
-						"min": 0,
-						"max": 100,
-						"null": false,
-						"default_value": 0
+				"params": {
+					"id":{
+						"isInt":{
+							"options":{
+								"min":0,
+								"max":100
+							}
+						}
 					},
-					{
-						"name": "name",
-						"type": "string",
-						"minLength": 5,
-						"maxLength": 14,
-						"pattern": "(A|B)-[a-z]{6}-[A-F0-9]{4}",
-						"null": false
+					"name":{
+						"isLength":{
+							"min":3							
+						},
+						"matches":{
+							"pattern":"(A|B)-[a-z]{6}-[A-F0-9]{4}"
+						}
 					}
-				],
+				},
 				"view": "list_user",
 				"type":"simplexml"
 			},
@@ -74,18 +85,7 @@
 		},
 		"dogs/:hello/:mail": {
 			"GET": {
-				"params": [
-					{
-						"name": "hello",
-						"type": "custom",
-						"validator": "my.validator",
-						"null": false
-					},
-					{
-						"name": "mail",
-						"type": "email"
-					}
-				],
+				
 				"type":"json"
 			}
 		},
@@ -96,14 +96,8 @@
 			"childRoutes": {
 				"stats/:type": {
 					"GET": {
-						"params": [
-							{
-								"name": "type",
-								"type": "int",
-								"min": 0
-							}
-						],
-					"type":"json"
+						
+						"type":"json"
 					}
 				}
 			}

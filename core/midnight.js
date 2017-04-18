@@ -39,7 +39,7 @@ const HTTP_METHODS = require('http').METHODS;
 //DEBUG ONLY
 var dummy = require("./middlewares/dummy");
 var TYPES = require("./middlewares/types");
-
+var validate_params = require("./middlewares/validate.params");
 
 
 
@@ -217,9 +217,9 @@ midnight_app.__generate_child_routes = function(sitemap){//, url_params){
 midnight_app.__load_middlewares_for_route = function( route){
     var mw = [];//les middlewares a appliquer
     //pour l'instant, on tente la sanitisation des parametres...
-    //utilise 2 middlewares, 1 pour les params GET, un pour les POSTS???
-    // if (route.params) mw.push(require("./middlewares/sanitize_params")(route.params, route.onerror)); 
-
+    if(route.params || route.url_params || route.formdatas_params) mw.push(validate_params(route)); 
+    // if (route.url_params) mw.push(validate_params(route.url_params, 'url')); 
+    // if (route.formdatas_params) mw.push(validate_params(route.formdatas_params,'formdatas')); 
 
 
     // //si une view definie, utilise le rendu (simple debug)
