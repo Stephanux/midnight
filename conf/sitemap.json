@@ -16,10 +16,10 @@
 				"url_params":{
 					"truc":{
 						"isInt":{
-							"options":[{
+							"options":{
 								"gt":10,
 								"lt":100
-							}],
+							},
 							"errorMessage":"Must be between 10 and 100 inclusive"
 						}
 						
@@ -67,11 +67,8 @@
 						}
 					},
 					"name":{
-						"isLength":{
-							"min":3							
-						},
 						"matches":{
-							"pattern":"(A|B)-[a-z]{6}-[A-F0-9]{4}"
+							"options":["(A|B)-[a-z]{6}-[A-F0-9]{4}"]
 						}
 					}
 				},
