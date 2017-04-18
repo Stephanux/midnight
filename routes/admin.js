@@ -122,10 +122,13 @@ module.exports = function(app){
 
     /**
      * deplace un endpoint
+passer via body?
      */
     router.put("/sitemap", function(req,res,next){
-        let who = req.query.who;
-        let where = req.query.where;
+        let who = req.body.who;
+        let where = req.body.where;
+
+        
         try{
             app.__move_child_route (who, where);
             res.status = 200;
