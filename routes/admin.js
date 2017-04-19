@@ -20,7 +20,7 @@ var router = express.Router();
 
 var path    = require("path");
 var TYPES = require("../core/middlewares/types");
-
+const HTTP_METHODS = require('http').METHODS;
 //note: les routes sont genereés via une fonction
 //j'ai juste besoin des données de l'application a ce moment la
 module.exports = function(app){
@@ -75,23 +75,45 @@ module.exports = function(app){
         });
     });
 
+
+const METHOD_WITH_FORMDATAS = ["POST","PUT"];//et le reste....
     /**
      * Ajoute une nouvelle route au runtime
      */
     router.post("/sitemap", function(req,res,next){
-        let parentid = req.body.parentid;
-        let url = req.body.url;
 
+        
+        let parentid = req.body.parentid;
+        //les infos du nouveau endpoint
+        let map = {};
+        let url = req.body.url;
+        //les parametres si existent
+        if (req.body.params){
+            //cree les parametres
+            let params = {};
+            for (let p of req.body.params){
+                url+="/:"+p.name;
+                //les contraintes, pour l'instant, j'ai rien...
+            }
+        }
+        if(req.body.methods){
+            //ajoute les methodes 
+            for (let method of req.body.methods){
+                if(method.url_params){
+                    let url_p = {};
+                    //et blababla...
+                }
+                if(method.form_datas && METHOD_WITH_FORMDATAS.indexOf(method.name)!=-1){
+                    //parametres de formulaires
+                }
+                map[method.name]={
+                    //les parametres et formdatas...
+                    type : method.returnType || 'json'
+                }
+            }
+        }
        
-        //cree un nouvel objet pour empaqueter la route a partir des infos 
-        //données dans le formulaire
-       let map = {
-            "GET":{
-                view:"hello",
-                type:'json'
-            },
-            
-        };
+       
         try{
             let ret = app.__add_child_route(parentid,url,map);
             res.status=200;//content created
@@ -137,6 +159,24 @@ passer via body?
             next(err);
         }
         
+    });
+
+
+
+    /**
+     * Informations necessaires pour creer un formulaire de nouveau endpoint
+     */
+    router.get("/endpointInfos", function(req,res,next){
+        let infos = {};
+        infos.methods = HTTP_METHODS;//methodes http supportées
+        infos.types = Object.keys(TYPES); //type de retour supportées
+        infos.param_types = ["Integer","Float","String","Date",
+        "Boolean","Credit card","Currency","URI","Email","Domain name",
+        "Hex color","Hexadecimal","IP","ISBN","ISSN","ISIN","JSON",
+        "MAC Address","MD5","Mobile phone","MongoID","URL","UUID"]//les types de parametres
+        //possibles
+
+        res.json(infos);
     });
      /* GET home page ADMIN.
     permet de tester les differents modules
