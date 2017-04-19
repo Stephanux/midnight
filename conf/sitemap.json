@@ -15,6 +15,7 @@
 				"type":"simplexml",
 				"url_params":{
 					"truc":{
+						"__type":"integer",
 						"isInt":{
 							"options":{
 								"gt":10,
@@ -31,6 +32,7 @@
 					"GET": {
 						"params": {
 							"id":{
+								"__type":"integer",
 								"isInt":{
 									"options":{
 										"min":0,
@@ -42,6 +44,7 @@
 						},
 						"url_params":{
 								"name":{
+									"__type":"string",
 									"optional":true,
 									"matches":{
 										"options":["(A|B)-[a-z]{6}-[A-F0-9]{4}"]
@@ -59,6 +62,7 @@
 			"GET": {
 				"params": {
 					"id":{
+						"__type":"integer",
 						"isInt":{
 							"options":{
 								"min":0,
@@ -67,6 +71,7 @@
 						}
 					},
 					"name":{
+						"__type":"string",
 						"matches":{
 							"options":["(A|B)-[a-z]{6}-[A-F0-9]{4}"]
 						}
