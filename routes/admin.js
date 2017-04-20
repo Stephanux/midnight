@@ -170,10 +170,20 @@ passer via body?
         let infos = {};
         infos.methods = HTTP_METHODS;//methodes http supportées
         infos.types = Object.keys(TYPES); //type de retour supportées
-        infos.param_types = ["Integer","Float","String","Date",
-        "Boolean","Credit card","Currency","URI","Email","Domain name",
-        "Hex color","Hexadecimal","IP","ISBN","ISSN","ISIN","JSON",
-        "MAC Address","MD5","Mobile phone","MongoID","URL","UUID"]//les types de parametres
+        infos.param_types = [
+            {
+                label:"Integer",
+                value:"isInt"
+            },
+            {
+                label:"Decimal",
+                value:"isDecimal"
+            },
+            {
+                label:"Boolean",
+                value:"isBool"
+            }
+            ]//les types de parametres
         //possibles
 
         res.json(infos);
