@@ -9,11 +9,15 @@ Formation **GRETA-DAX**
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+Ce projet me sert juste a tester quelques idées que j'aimerais voir ajouter au framework OTF2:
+* router: laisser express gerer les routes (plutot que tout mettre dans un middleware) **DONE**
+* router: permettre de créer des routes (config) à la volée (sans redemarrage du serveur) **DONE**
+* importer SQLTool dans OTF pour la définition des schémas des base SQL ou Mongo et créer dynamiquement (sans redemarrage du serveur) les beans d'actions.
+* Pour le fun: découper un site web non plus en pages html  dédiées à une action -lister les produits,... , mais en un ensemble de SPA dédiées (un peu compliquer à expliquer comme ca...)
 
 ## Installation
 
-* a voir
+* voir OTF2
 
 ## Configuration conf/config.json
 
